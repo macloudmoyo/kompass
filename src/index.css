@@ -14,6 +14,12 @@
   --color-kompass-text-secondary: #94A3B8;
   --color-kompass-text-muted: #475569;
   --font-family-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --animate-compass-spin: compass-spin 3s linear infinite;
+}
+
+@keyframes compass-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 body {
