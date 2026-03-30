@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   Upload,
@@ -118,11 +118,54 @@ function MomentumIcon({ momentum }) {
 
 const FILTERS = ['All', 'High Priority', 'Detected Signals', 'Critical Gaps']
 
+function SkeletonTable() {
+  return (
+    <div className="overflow-hidden rounded-xl border border-kompass-border bg-kompass-surface">
+      <div className="border-b border-kompass-border bg-kompass-bg px-4 py-3">
+        <div className="flex gap-8">
+          {[120, 100, 100, 60, 80, 50, 70, 60].map((w, i) => (
+            <div key={i} className="skeleton-shimmer rounded" style={{ width: w, height: 12 }} />
+          ))}
+        </div>
+      </div>
+      {Array.from({ length: 6 }).map((_, i) => (
+        <div key={i} className="flex items-center gap-8 border-b border-kompass-border px-4 py-4 last:border-0">
+          <div className="flex items-center gap-3">
+            <div className="skeleton-shimmer h-12 w-12 rounded-full" />
+            <div className="space-y-2">
+              <div className="skeleton-shimmer h-4 w-24 rounded" />
+              <div className="skeleton-shimmer h-3 w-20 rounded" />
+            </div>
+          </div>
+          <div className="skeleton-shimmer h-11 w-11 rounded-full" />
+          <div className="space-y-2">
+            <div className="skeleton-shimmer h-4 w-10 rounded" />
+            <div className="flex gap-1">
+              {[1, 2, 3, 4].map((d) => <div key={d} className="skeleton-shimmer h-2 w-2 rounded-full" />)}
+            </div>
+          </div>
+          <div className="skeleton-shimmer h-5 w-16 rounded-full" />
+          <div className="skeleton-shimmer h-4 w-16 rounded" />
+          <div className="skeleton-shimmer h-4 w-4 rounded" />
+          <div className="skeleton-shimmer h-5 w-16 rounded-full" />
+          <div className="skeleton-shimmer h-4 w-20 rounded" />
+        </div>
+      ))}
+    </div>
+  )
+}
+
 function AccountsList() {
   const navigate = useNavigate()
   const [activeFilter, setActiveFilter] = useState('All')
   const [sortBy, setSortBy] = useState('penetration-desc')
   const [searchQuery, setSearchQuery] = useState('')
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const t = setTimeout(() => setLoading(false), 1500)
+    return () => clearTimeout(t)
+  }, [])
 
   const filteredAccounts = useMemo(() => {
     let list = [...accounts]
@@ -266,8 +309,9 @@ function AccountsList() {
       </div>
 
       {/* Table */}
-      <div className="overflow-hidden rounded-xl border border-kompass-border bg-kompass-surface">
-        <table className="w-full">
+      {loading ? <SkeletonTable /> : (
+      <div className="overflow-x-auto rounded-xl border border-kompass-border bg-kompass-surface">
+        <table className="w-full min-w-[1024px]">
           <thead>
             <tr className="border-b border-kompass-border bg-kompass-bg">
               <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-kompass-text-muted">
@@ -403,6 +447,7 @@ function AccountsList() {
           </tbody>
         </table>
       </div>
+      )}
     </div>
   )
 }
