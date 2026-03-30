@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-kompass-bg: #0D1117;
+  --color-kompass-surface: #161B27;
+  --color-kompass-border: #1E2A3B;
+  --color-kompass-blue: #3B82F6;
+  --color-kompass-green: #10B981;
+  --color-kompass-amber: #F59E0B;
+  --color-kompass-red: #EF4444;
+  --color-kompass-purple: #8B5CF6;
+  --color-kompass-text-primary: #F1F5F9;
+  --color-kompass-text-secondary: #94A3B8;
+  --color-kompass-text-muted: #475569;
+  --font-family-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+body {
+  background-color: var(--color-kompass-bg);
+  color: var(--color-kompass-text-primary);
+  margin: 0;
+  min-height: 100vh;
+}
